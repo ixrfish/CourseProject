@@ -1,15 +1,15 @@
 from flask import Flask, jsonify
 from flask_restplus import Api, Resource
 
-from src.address_parser import PyapParser, CommonRegexParser
-from src.crawler import EaterCrawler
+from src.api.address_parser import PyapParser, CommonRegexParser, SpacyParser
+from src.api.crawler import EaterCrawler
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, doc="/doc")
 
 pyap_parser = PyapParser()
 commonregex_parser = CommonRegexParser()
-#lexnlp_parser = LexnlpParser()
+spacy_parser = SpacyParser()
 
 @api.route("/parse/regex/pyap$url=<path:url>")
 class RegexPyapParse(Resource):
@@ -23,11 +23,12 @@ class RegexCommonRegexParse(Resource):
     def get(self, url):
         return jsonify(commonregex_parser.parse(url))
 
-@api.route("/parse/lexnlp=<path:url>")
+@api.route("/parse/nlp/spacy=<path:url>")
 class SpaCyParse(Resource):
     @api.doc(params={'url': 'URL containing address to crawl'})
     def get(self, url):
-        return jsonify(lexnlp_parser.parse(url))
+        return jsonify(spacy_parser.parse(url))
+
 
 
 eater_crawler = EaterCrawler()
