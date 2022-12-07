@@ -23,7 +23,7 @@ class RegexCommonRegexParse(Resource):
     def get(self, url):
         return jsonify(commonregex_parser.parse(url))
 
-@api.route("/parse/nlp/spacy=<path:url>")
+@api.route("/parse/nlp/spacy$url=<path:url>")
 class SpaCyParse(Resource):
     @api.doc(params={'url': 'URL containing address to crawl'})
     def get(self, url):

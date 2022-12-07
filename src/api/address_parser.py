@@ -32,7 +32,7 @@ class PyapParser(AddressParser):
     def parse(self, url: str) -> str:
         req = requests.get(url)
         addresses = pyap.parse(self.text_from_html(req.text), country="us")
-        return list(set([str(address) for address in addresses]))
+        return sorted(list(set([str(address) for address in addresses])))
 
 class CommonRegexParser(AddressParser):
     def __init__(self):
@@ -41,14 +41,12 @@ class CommonRegexParser(AddressParser):
     def parse(self, url: str) -> str:
         req = requests.get(url)
         addresses = self.parser.street_addresses(self.text_from_html(req.text))
-        return list(set([str(address) for address in addresses]))
+        return sorted(list(set([str(address) for address in addresses])))
 
 class SpacyParser(AddressParser):
-
     def parse(self, url: str) -> str:
         req = requests.get(url)
-    #    nlp = spacy.load("en_core_web_sm")
-        nlp = English()
+        nlp = spacy.load("./data/model-best")
 
         matcher = Matcher(nlp.vocab)
         matcher.add("address", [
@@ -67,24 +65,4 @@ class SpacyParser(AddressParser):
         addresses = set()
         for match_id, start, end in matcher(doc):
             addresses.add(doc[start:end].text)
-        return list(addresses)
-"""
-
-matcher.add("address", [[{"ENT_TYPE": 'BUILDING_NO'}, {"ENT_TYPE": 'STREET_NAME', "OP": "+"}, {"IS_PUNCT": True}, {"ENT_TYPE": 'CITY'}, {"IS_PUNCT": True}, {"ENT_TYPE": 'STATE'}, {"ENT_TYPE": 'BUILDING_NO'}]])
-
-        ('315', 'BUILDING_NO'), ('Shawmut Ave', 'STREET_NAME'), ('Boston', 'CITY'), ('MA', 'STATE'), ('02118', 'BUILDING_NO')
-        matcher.add("address", [
-            nlp("5313 Ballard Ave NW #3148, Seattle, WA 98107"),
-            nlp("5313 Ballard Ave NW Ste A, Seattle, WA 98107"),
-            nlp("5313 Ballard Ave NW, Seattle, WA 98107"),
-            nlp("5313 Ballard Ave N, Seattle, WA 98107"),
-            nlp("5313 NW Ballard Ave, Seattle, WA 98107"),
-            nlp("5313 NW 12th St, Seattle, WA 98107"),
-            nlp("5313 NW 12th St #3148, Seattle, WA 98107"),
-            nlp("531 N 12th St, Seattle, WA 98107"),
-            nlp("531 N Ballard Way, Seattle, WA 98107"),
-            nlp("89 Holland St, Somerville, MA 02144"),
-            nlp("8 Holland St, Somerville, MA 02144"),
-        ])
-
-"""
+        return sorted(list(addresses))

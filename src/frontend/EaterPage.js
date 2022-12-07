@@ -16,16 +16,14 @@ class EaterPage extends Component {
     }
 
     handleChange(event) {
-        this.setState({url: event.target.value});
+        this.setState({ url: event.target.value });
     }
 
     handleSubmit(event) {
-        alert('An Url was submitted: ' + this.state.url + "\nScroll down to see result");
+        alert('An Url was submitted: \n' + this.state.url + "\nScroll down to see result");
         event.preventDefault();
 
         this.setState({ viewResult: true });
-
-//        this.props.navigate('/result');
     }
 
     render() {
