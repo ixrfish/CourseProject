@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './frontend/index.css';
 import EaterPageWithNavigate from './frontend/EaterPage';
-import EaterResult from './frontend/EaterResult';
 import reportWebVitals from './frontend/reportWebVitals';
 import {BrowserRouter as Router} from 'react-router-dom';
 

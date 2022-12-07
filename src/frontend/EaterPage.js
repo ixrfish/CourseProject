@@ -1,6 +1,6 @@
 import './EaterPage.css';
 import React, { Component } from 'react';
-import {Link, Routes, Route, useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import EaterResult from './EaterResult.js'
 
 class EaterPage extends Component {

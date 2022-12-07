@@ -71,6 +71,8 @@ export default class EaterResult extends Component {
                 return toCompare.filter(toCompareElement => {
                     if (groundTruthElement.includes(toCompareElement.trim())) {
                         return true;
+                    } else {
+                        return false;
                     }
                 }).length
             }).filter(ele => ele > 0);
